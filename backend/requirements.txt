@@ -1,0 +1,26 @@
+# FastAPI 复刻版依赖（对应 backend/requirements.txt 的能力替换）
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+
+# ---------- 数据库 ----------
+sqlalchemy>=2.0.35
+pymysql>=1.1.0
+cryptography>=42.0.0
+
+# ---------- JWT（与 Django simplejwt HS256 完全互通） ----------
+pyjwt>=2.9.0
+
+# ---------- 表单/文件上传 ----------
+python-multipart>=0.0.9
+
+# ---------- Excel 导入导出 ----------
+openpyxl>=3.1.0
+
+# ---------- User-Agent 解析（登录日志/操作日志） ----------
+user-agents==2.2.0
+
+# ---------- 验证码图片绘制 ----------
+pillow>=10.0.0
+
+# ---------- HTTP 客户端（IP 归属地等场景预留） ----------
+requests>=2.31.0

@@ -1,0 +1,19 @@
+.idea
+logs
+# virtualenv
+/venv/
+*.log
+*.pot
+*.py[cod]
+__pycache__
+# 真实部署配置（服务器上 cp 自 .env.prod，含密钥，不入库）
+.env
+.venv
+# SQLite 独立数据库（运行数据不入库，结构由 Django migrations 管理）
+db.sqlite3
+#项目日志和上传资源目录
+/logs/
+/media/
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt

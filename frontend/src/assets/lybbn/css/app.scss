@@ -1,0 +1,498 @@
+/* 全局 */
+#app {width: 100%;height: 100%;font-size: 13px;}
+/* html 不能带背景：html 有背景时 body 背景不再上浮为画布背景，会以普通元素层级
+   绘制在 z-index:-1 的极光光斑之上，导致光斑永远被盖住（对齐设计稿：背景只在 body） */
+html {width: 100%;height: 100%;font-size: 13px;}
+body {width: 100%;height: 100%;background-color: var(--ly-bg-page, #EEF2FB);font-size: 13px;color: var(--ly-text-1, #1B2340);font-family: var(--ly-font-family);-webkit-font-smoothing: antialiased;}
+/* 全页蓝调氛围（token: --ly-page-gradient，暗色自动置 none） */
+body {background-image: var(--ly-page-gradient, none);background-attachment: fixed;}
+a {color: #333;text-decoration: none;}
+a:hover, a:focus {color: #000;text-decoration: none;}
+a:link {text-decoration: none;}
+a:-webkit-any-link {text-decoration: none;}
+a,button,input,textarea{-webkit-tap-highlight-color:rgba(0,0,0,0);box-sizing: border-box;outline:none !important; -webkit-appearance: none;}
+* {margin: 0;padding: 0;box-sizing: border-box;outline: none;}
+
+/* 大布局样式 */
+.lybbn-panel {display: flex;flex-flow: column;}
+.lybbn-panel-wrapper {display: flex;flex:1;overflow: auto;}
+
+/* 全局滚动条样式 */
+.scrollable {-webkit-overflow-scrolling: touch;}
+::-webkit-scrollbar {width: 8px;height: 8px;}
+::-webkit-scrollbar-thumb {background-color: rgba(27, 35, 64, 0.14);border-radius: 4px;}
+::-webkit-scrollbar-thumb:hover {background-color: rgba(27, 35, 64, 0.24);}
+::-webkit-scrollbar-track {background-color: transparent;}
+::-webkit-scrollbar-track:hover {background-color: transparent;}
+
+/* 头部（亮色玻璃 + 毛玻璃模糊，文字色随暗色模式切换） */
+.lybbn-panel-header {height: var(--ly-topbar-height, 60px);background: var(--ly-header-bg);color: var(--ly-header-text);display: flex;justify-content:space-between;backdrop-filter: var(--ly-glass-blur);-webkit-backdrop-filter: var(--ly-glass-blur);border-bottom: 1px solid var(--ly-header-border);box-shadow: var(--ly-glass-highlight);position: relative;z-index: 5;}
+.lybbn-panel-header-left {display: flex;align-items: center;padding-left:20px;flex-shrink: 0;gap: 16px;}
+.lybbn-panel-header-center {display: flex;align-items: center;}
+.lybbn-panel-header-center a{font-size: 12px;color: var(--ly-text-3);text-decoration: none;letter-spacing: .5px;}
+.lybbn-panel-header-right {display: flex;align-items: center;flex-shrink: 0;}
+.lybbn-panel-header .logo-bar {font-size: 15px;font-weight: 700;letter-spacing: .2px;display: flex;align-items: center;}
+.lybbn-panel-header .logo-bar .logo {margin-right: 10px;width: 32px;height: 32px;border-radius: 9px;box-shadow: var(--ly-shadow-primary);}
+/* v4 顶栏搜索胶囊（Ctrl K 命令面板入口） */
+.lybbn-topbar-search {display: flex;align-items: center;gap: 8px;width: 260px;height: 36px;padding: 0 12px;border-radius: 18px;background: var(--ly-glass-bg-soft);border: 1px solid var(--ly-line-soft);color: var(--ly-text-3);font-size: 13px;cursor: pointer;transition: border-color var(--ly-duration-fast),box-shadow var(--ly-duration-fast),color var(--ly-duration-fast);
+	.el-icon {font-size: 15px;}
+	span {flex: 1;text-align: left;}
+	kbd {margin-left: auto;font-family: inherit;font-size: 11px;color: var(--ly-text-3);background: rgba(27,35,64,.05);border: 1px solid var(--ly-line-soft);border-radius: 6px;padding: 2px 6px;}
+	&:hover {border-color: var(--el-color-primary);box-shadow: var(--ly-focus-ring);color: var(--ly-text-2);}
+}
+html.dark .lybbn-topbar-search kbd {background: rgba(255,255,255,.06);}
+.lybbn-panel-header .nav {display: flex;height: 100%;margin-left: 40px;}
+.lybbn-panel-header .nav li {padding:0 10px;margin: 0 10px 0 0;font-size: 14px;color: var(--ly-header-text);opacity: .65;list-style: none;height: 100%;display: flex;align-items: center;cursor: pointer;transition: opacity var(--ly-duration-fast),background var(--ly-duration-fast);}
+.lybbn-panel-header .nav li i {margin-right: 5px;}
+.lybbn-panel-header .nav li:hover {opacity: 1;}
+.lybbn-panel-header .nav li.active {background: var(--ly-gradient-soft);opacity: 1;border-radius: 0;}
+.lybbn-panel-header .user-bar .user label{color: var(--ly-header-text);}
+
+/* 左侧菜单（分栏布局竖栏：玻璃化） */
+.lybbn-panel-side-split {width:65px;flex-shrink:0;background: var(--ry-menu-bg);backdrop-filter: var(--ly-glass-blur);-webkit-backdrop-filter: var(--ly-glass-blur);border-right: 1px solid var(--ly-glass-border);display: flex;flex-flow: column;}
+.lybbn-panel-side-split-top {height: 49px;}
+.lybbn-panel-side-split-top a {display: inline-block;width: 100%;height: 100%;display: flex;align-items: center;justify-content: center;}
+.lybbn-panel-side-split-top .logo {height:30px;vertical-align: bottom;}
+.lybbn-panel-side-split-scroll {overflow: auto;overflow-x:hidden;height: 100%;flex: 1;}
+.lybbn-panel-side-split li {cursor: pointer;width: 100%;min-height: 65px;color: var(--ly-text-2);text-align: center;display: flex;flex-direction: column;align-items: center;justify-content: center;padding: 10px 4px;box-sizing: border-box;transition: background var(--ly-duration-fast),color var(--ly-duration-fast);}
+/* 竖栏只应纵向滚动：内容盒 64px（65-1px右边框），li 写死 65px 会恒定溢出 1px
+   触发 el-scrollbar 横向滚动条（页面底部左侧凭空多出一条），禁掉横向滚动 */
+.lybbn-panel-side-split .el-scrollbar__wrap {overflow-x: hidden;}
+.lybbn-panel-side-split .el-scrollbar__bar.is-horizontal {display: none;}
+.lybbn-panel-side-split li i {font-size: 18px;flex-shrink: 0;}
+.lybbn-panel-side-split li p {margin-top:5px;font-size: 12px;line-height: 1.2;max-width: 100%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+.lybbn-panel-side-split li:hover {background: var(--ly-gradient-soft);color: var(--ly-color-primary);}
+/* 激活胶囊：不用固定高（48px 装不下图标+文字两行会重叠溢出），改 min-height 自适应，文字多时整体长高
+   水平 padding 归零保证 4 字标题完整显示（44px 会把 48px 的 4 个 12px 汉字截成省略号），文字居中无需内边距 */
+.lybbn-panel-side-split li.active {background: var(--ly-gradient-active) !important;color: #fff !important;box-shadow: var(--ly-sidebar-active-shadow);border-radius: 12px;margin: 3px 5px;width: auto;height: auto;min-height: 48px;padding: 7px 0 8px;}
+
+.lybbn-panel-side-split-scroll::-webkit-scrollbar-thumb {background-color: rgba(27, 35, 64, 0.2);border-radius:5px;}
+.lybbn-panel-side-split-scroll::-webkit-scrollbar-thumb:hover {background-color: rgba(27, 35, 64, 0.3);}
+.lybbn-panel-side-split-scroll::-webkit-scrollbar-track {background-color: rgba(255, 255, 255, 0);}
+.lybbn-panel-side-split-scroll::-webkit-scrollbar-track:hover {background-color: rgba(255, 255, 255, 0);}
+
+/* 左侧菜单（经典布局：v4 浮动圆角玻璃面板，离边 14px） */
+.lybbn-panel-side {
+	margin: 14px 0 14px 14px;border-radius: var(--ly-radius-xl);overflow: hidden;
+	background-color: var(--ry-menu-bg);
+	backdrop-filter: var(--ly-glass-blur);-webkit-backdrop-filter: var(--ly-glass-blur);
+	border: 1px solid var(--ly-glass-border);
+	box-shadow: var(--ly-glass-highlight),0 2px 4px rgba(27,35,64,.03),0 12px 32px rgba(27,35,64,.06);
+	display: flex;flex-flow: column;flex-shrink:0;width:var(--ry-menu-width);
+	animation: ly-sidebar-in .55s .05s backwards;
+	transition:width 0.3s,background var(--ly-duration-slow),border-color var(--ly-duration-slow);
+}
+@keyframes ly-sidebar-in {from{opacity:0;transform:translateX(-24px)}to{opacity:1;transform:none}}
+.lybbn-panel-side-top {border-bottom: 1px solid var(--ly-glass-border);height:50px;line-height: 50px;}
+.lybbn-panel-side-top h2 {padding:0 20px;font-size: 17px;color: var(--ly-text-1);}
+.lybbn-panel-side-scroll {overflow: auto;overflow-x:hidden;flex: 1;padding: 10px 0;}
+.lybbn-panel-side-bottom {border-top: 1px solid var(--ly-glass-border);height:51px;cursor: pointer;display: flex;align-items: center;justify-content: center;}
+.lybbn-panel-side-bottom i {font-size: 16px;}
+.lybbn-panel-side-bottom:hover {color: var(--ly-color-primary);}
+.lybbn-panel-side.isCollapse {width: 65px;}
+.lybbn-header-menu {flex: 1;min-width: 0;overflow: hidden;}
+.lybbn-header-menu .el-menu {--el-menu-hover-bg-color: transparent !important;height: 48px;}
+.lybbn-header-menu .el-menu .el-sub-menu__title {background-color:transparent !important;}
+.lybbn-header-menu .el-menu--horizontal>.el-menu-item.is-active {background-color:transparent ;}
+.el-menu .menu-tag {position: absolute;height: 18px;line-height: 18px;background: var(--el-color-danger);font-size: 12px;color: #fff;right: 20px;border-radius:18px;padding:0 6px;}
+.el-menu .el-sub-menu__title .menu-tag {right: 40px;}
+.el-menu--horizontal > li .menu-tag {display: none;}
+/* 菜单容器全透明（避免 el-menu 默认白底盖住玻璃面板，含子级展开菜单） */
+.rymenu,.rymenu .el-menu--inline,.rymenu .el-menu {background: transparent !important;}
+/* EP 默认 :hover/:focus 会刷 --el-menu-hover-bg-color（浅蓝 #ebf1ff），变量级置透明——任何情况下都不会再出现"伪激活"药丸 */
+.rymenu {--el-menu-hover-bg-color: transparent;}
+
+/* 菜单项：严格对齐 v4 设计稿（dashboard-preview-v4.html .menu a）
+   42px 视觉高 / 11px 视觉圆角 / 3px 间距用透明边框实现（纵向 margin 不计入 EP 展开动画的 scrollHeight，会导致子菜单展开跳动） */
+.rymenu {font-size: 13.5px;}
+.rymenu .el-menu-item,
+.rymenu .el-sub-menu__title {
+	height: 48px;box-sizing: border-box;line-height: 42px;
+	border: 3px solid transparent;background-clip: padding-box;
+	border-radius: 14px;margin: 0 10px;position: relative;
+	transition: background var(--ly-duration-fast),color var(--ly-duration-fast),box-shadow var(--ly-duration-normal);
+}
+/* hover：v4 淡蓝渐变 + 文字主题色 */
+.rymenu .el-menu-item:hover,
+.rymenu .el-sub-menu__title:hover {background-color: transparent;background-image: var(--ly-gradient-soft);color: var(--el-color-primary);}
+/* 点击后的焦点残留会套 hover 底色，看起来像双激活——变量+规则双层清除，激活态只认 .is-active */
+.rymenu .el-menu-item:focus,
+.rymenu .el-menu-item:focus-visible,
+.rymenu .el-sub-menu__title:focus,
+.rymenu .el-sub-menu__title:focus-visible {background-color: transparent !important;background-image: none !important;}
+/* 激活：v4 主渐变（135° 深蓝→主蓝）+ 白字 + 柔和投影 */
+.rymenu .el-menu-item.is-active,
+.rymenu .el-menu-item.is-active:focus,
+.rymenu .el-menu-item.is-active:hover {
+	background-color: transparent !important;
+	background-image: var(--ly-gradient-primary) !important;
+	color: #fff !important;font-weight: 500;
+	box-shadow: var(--ly-sidebar-active-shadow);
+}
+/* v4 标志性效果：激活项流光扫过 */
+.rymenu .el-menu-item.is-active::after {
+	content:"";position:absolute;inset:3px;border-radius:var(--ly-sidebar-item-radius);
+	background:linear-gradient(105deg,transparent 42%,rgba(255,255,255,.25) 50%,transparent 58%);
+	background-size:250% 100%;background-position:120% 0;
+	animation:ly-sheen 4.5s ease-in-out .8s infinite;pointer-events:none;
+}
+@keyframes ly-sheen {0%{background-position:120% 0}55%,100%{background-position:-120% 0}}
+/* 间距用的 3px 边框必须永远透明：EP 有休眠规则 .el-sub-menu.is-active .el-sub-menu__title{border-bottom-color:主色}，
+   展开父级菜单时会把透明底边框涂蓝（出现圆角蓝色横线），此处整体压制 */
+.rymenu .el-menu-item,
+.rymenu .el-menu-item.is-active,
+.rymenu .el-sub-menu__title,
+.rymenu .el-sub-menu.is-active .el-sub-menu__title {border-color: transparent !important;}
+/* 折叠态：EP 给菜单项内联 padding-left(层级缩进)，叠加胶囊 margin 后图标偏左——清掉内边距并显式居中 */
+.lybbn-panel-side.isCollapse .rymenu .el-menu-item,
+.lybbn-panel-side.isCollapse .rymenu .el-sub-menu__title,
+.rymenu.el-menu--collapse .el-menu-item,
+.rymenu.el-menu--collapse .el-sub-menu__title {
+	padding-left: 0 !important;padding-right: 0 !important;
+	text-align: center;justify-content: center;margin-left: 8px;margin-right: 8px;
+}
+/* 折叠态：标题文字必须隐藏（span 仍占宽会把图标挤到右侧） */
+.lybbn-panel-side.isCollapse .rymenu .el-menu-item > span,
+.lybbn-panel-side.isCollapse .rymenu .el-sub-menu__title > span,
+.rymenu.el-menu--collapse .el-menu-item > span,
+.rymenu.el-menu--collapse .el-sub-menu__title > span {display: none !important;}
+/* 折叠态图标绝对居中：EP 内联 padding-left(层级缩进)随缩放变化，压不干净，直接几何居中最稳 */
+.lybbn-panel-side.isCollapse .rymenu .el-menu-item .el-icon,
+.lybbn-panel-side.isCollapse .rymenu .el-sub-menu__title .el-sub-menu__icon-arrow,
+.rymenu.el-menu--collapse .el-menu-item .el-icon,
+.rymenu.el-menu--collapse .el-sub-menu__title .el-sub-menu__icon-arrow {
+	position: absolute;left: 50%;top: 50%;transform: translate(-50%, -50%);margin: 0;
+}
+
+/* 右侧内容 */
+.lybbn-panel-body {flex: 1;display: flex;flex-flow: column;}
+
+.lybbn-panel-topbar {height: 50px;border-bottom: 1px solid var(--ly-glass-border);background: var(--ly-glass-bg);backdrop-filter: var(--ly-glass-blur);-webkit-backdrop-filter: var(--ly-glass-blur);box-shadow: var(--ly-glass-highlight);display: flex;justify-content:space-between;}
+.lybbn-panel-topbar .left-panel {display: flex;align-items: center;}
+.lybbn-panel-topbar .right-panel {display: flex;align-items: center;}
+
+.right-panel-search {display: flex;align-items: center;}
+.right-panel-search > * + * {margin-left:10px;}
+
+/* 多标签栏（玻璃 + 渐变激活块） */
+.lybbn-panel-tags {height:35px;background: var(--ly-glass-bg);backdrop-filter: var(--ly-glass-blur);-webkit-backdrop-filter: var(--ly-glass-blur);border-bottom: 1px solid var(--ly-glass-border);}
+.lybbn-panel-tags ul {display: flex;overflow: hidden;}
+.lybbn-panel-tags li {cursor: pointer;display: inline-block;float: left;height:34px;line-height: 34px;position: relative;flex-shrink: 0;}
+.lybbn-panel-tags li::after {content: " ";width:1px;height:100%;position: absolute;right:0px;background-image: linear-gradient(transparent, var(--ly-glass-border));}
+.lybbn-panel-tags li a {display: inline-block;padding:0 10px;width:100%;height:100%;color: var(--ly-text-2);text-decoration:none;display: flex;align-items: center;}
+.lybbn-panel-tags li i {margin-left:10px;border-radius: 3px;width:18px;height:18px;display: flex;align-items: center;justify-content: center;}
+.lybbn-panel-tags li i:hover {background: rgba(0,0,0,.2);color: #fff;}
+.lybbn-panel-tags li:hover {background: var(--ly-gradient-soft);}
+.lybbn-panel-tags li.active {background: var(--ly-gradient-primary);}
+.lybbn-panel-tags li.active a {color: #fff;}
+.lybbn-panel-tags li.sortable-ghost {opacity: 0;}
+
+.lybbn-panel-main {overflow: auto;background-color: transparent;flex: 1;position: relative;}
+
+/* 路由页面入场过渡（切页时内容上浮淡入）。
+   fill 必须用 backwards 而非 both：both 会在动画结束后永久持有 transform 效果，
+   Chrome 视同 will-change:transform，使页面容器成为 fixed 弹窗遮罩的包含块，
+   遮罩被裁剪成内容区矩形盖不住侧栏/header（backwards 结束后效果移除，无此问题） */
+.lybbn-panel-main .el-scrollbar__view > *,
+.lybbn-panel-main > * {animation: ly-view-in var(--ly-duration-normal) backwards;}
+@keyframes ly-view-in {from {opacity: 0;transform: translateY(10px);}to {opacity: 1;transform: none;}}
+@media (prefers-reduced-motion: reduce) {
+	.lybbn-panel-main .el-scrollbar__view > *,
+	.lybbn-panel-main > * {animation: none;}
+}
+
+/*页面最大化*/
+.lybbn-panel.main-maximize {
+	.main-maximize-exit {display: block;}
+	.lybbn-panel-side-split, .lybbn-panel-side, .lybbn-panel-header, .lybbn-panel-topbar, .lybbn-panel-tags {display: none;}
+}
+.main-maximize-exit {display: none;position: fixed;z-index: 3000;top:-20px;left:50%;margin-left: -20px;border-radius: 50%;width: 40px;height: 40px;cursor: pointer;background: rgba(0,0,0,0.2);text-align: center;}
+.main-maximize-exit i {font-size: 14px;margin-top: 22px;color: #fff;}
+.main-maximize-exit:hover {background: rgba(0,0,0,0.4);}
+
+/*定宽页面*/
+.lypage {width: 1230px;margin: 0 auto;}
+
+/*系统图标*/
+.ico-linux {
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAJbUExURUxpcQAAAuqxG0EtBAEBAwEBAwICBBEMAgEBA15GBAEBAwAAAgcGBAAAAQEBAgEBAgAAAgAAAgAAAQEBAnNSBlI4BMOKCwEBAwAAAcCKCNGYCKZ0BQAAAgAAAc+VCXJOBhYPA1k9B82VCLB9BgICBKNxB8aRDZdhBL+SEAAAAgEBAkQuBjopA3lUBV5CBDMeA7yLB7lVB7N9B6ByBueyG+OsGtSeFJ9wCr9uB45hB5JmBQ0NDpZpBZt2BUwzBkY1A19BBYVdBWtKBA8NB/39+wEBA/W9CwAAAP///wAAAv7+/fXAIfe+C/v7+fW+Hx0dHgUFCObm5RAQEgsLDfPz8vn59/z8+/bBIf///iAgI/rBDBYWF/K5Cjk5O+arCBkZG7e4uO3t7MqRCFJSU6l1B/Hx8NbW1duhBiQkJj4+QPX1892kF7iHD7+FCZubnHx8fltcXoaGhvC4HSgoKriCCNCYFPO7HcuaIL/AweqyBxQXIZWVlcyZC8nJyZ1uA8TGyPDSKff39fzBHkhISeetGhINBPC2Cv7FDLGwr9idFP/JC2JFBR4UA21OBDEjBjEwL29vb7CtpgsGAoleCdna2tabBn9WBbGbWezCCvrcJOHh396rCquCDo6Ojk87B+KlBcbJzdvc38KUDeWpFbaRFLF4B6CQcrKoj+7HDPvbLvjcRoRyDM/Pzh0aEURFSJhnB5t6CXJycjcvIlZNHvnfbt/Zy8S/tu/n1sXAt+zViYBdD9rPtd+lBKykmJh2JtGQACgeCerMMdSuFpyZhKGTSaagfv/mFPC3D/fJIVcdBOMAAACFdFJOUwAP/weLM8Ub5wXzZpa6gOxz1KOw+Yo6+0Ao7eFP3f1cV/3BHptVaDrmXir9CoQ1RH5/x5jp34zRIdR46rNmo29N04em//////////////////////////////////////////////////////////////////////////////////////2S7WvyAAAD2klEQVRIx8XVZ1MbRxgAYAMGiQ4GTEw1LrFjYzu915lb7emkazrUol5OXQgQRXQLCKZXA3HvLU7sxE7v/XdlDwE6EQkun7Izug83euYt++7enj3/38o9Ul4qzyuRSRdl1UBYTGmhVPEcSCy/hSmTJrLkG2TUZQLP/KcgjI1jQJ4kUrRBIFSiZ64UUgEhwwAltNEmRCR1oNjW3gaUoM0+7EdhSiSRSIx1QVegf9CO5F5JpN/W3goidmjxGKE0UtHeN7/28M8/IDNISyT72u6F7l94cPbhX60QgCOSmvxr0Pzx2U8u/P3g9hIAFVLI3tVrvQK5P+D8CMD6ZilDORdC5LffnSs/w6ifkTIyhX133TcHGn7puWc3aiKWfVIS8w3fdd8JrdlvxK9A2lS9+8icKF1gY4s/TVxndXjAB+HukykrjzowT2z4RsBAYPgV1ObdZqa5GNhxgnTwmAHDMJzVCKZu532EoziBEQYECOE5KpCCnbpWCGA7ocPIFi1GxnkHy0cgGk0gz3xxyEoR4eOYlicxMuC4+KnHE2U0KE7mThcyHH2eQEWQ6IfyirOsndHQAFSfyDjEtLIVx5KLMPBxFzDSSlCU6W55yzRPCkF0SYRP+Pw+jVKeleFuscH+9SDxpMEdRkaDjlr6RufnmbiLAtG1iMNYIGfMdKDrNJwFXy+eF9WDuyDnyzA2OeUc/GI9L7JFTNqgCSWWtpg6SGsS/dJuIzQam4J0u1kE+3wTaYgLRjkI05Kyq9N0TCCEiBA4buFoet5XnpOGvGOeuuw/jwskWb72uy+fKiG0PUq3lwdqzOpzs32DqGdkYCurbwamKoWvwGfHX9+2I88fOlRjVSg+HJ/jFnFDMi3tVz0j36NRXro88mwq2e81m80KtM7dBjBCEFuE/bqnu6tp7mpohHp1G7Gq1WrFupmFcGHLEOy3Pd3Zk13BDpX+5QOpdXgTAKV2aQZCz+Y0E/ziTap7bCybUqlUr+wXk8M1ik0z9TkTZTej4NefhCk9JQCVSj8mLudwwxZR967xG0EM+DA946T0qoSgso+LyNFLmwKZgR/wxNL1c/BkV4JQHdnB0Asi8qJQ/oZS/7i8EGN5h6fVgu69pklE9FRH0Nn52lFxLbXOa73j6N+CUluHlqCGtjFQuI+mu7opqmOswf1GY35Kx469VNvpXPFax5Eye4dmCuT19fIC4Us+3Rm8dWsy/PjUv78ZOcfefLvWHV6xWr2dlWdkzfk5WbLcgyXFJ5fvhMPu5cZMl+vpUx8MuYcq3xO9O9g0u7pa2bjDbZn/flXVmZQ3p6verUo9Kv8Ajp1zCYjOfJsAAAAASUVORK5CYII=");
+	background-repeat: no-repeat;padding-left: 30px;background-size: contain;height: 20px;
+}
+
+.ico-windows {
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAALJJREFUOE/lU9EJwjAUvINmgKyQFbpCV3AFV3AFXaDQrNARdARncAU3yMlBCxZMW/BLfJCf5HIveXdH7Ki+72MIIZVSkqREsgWQvDjfNwhAbJpmBj0AdJKO3q/14TAM94ltASJ5keRO3dojTaBPgD8juFaGNAJ4TpJV58ic87lyepMUNwk2VLBZDt/I+CMEtrItu6jJiba3s1BX4S1MyUEqpbQk/Xer4OSdVsO0I81Yi/MLrIlzp0RBFLwAAAAASUVORK5CYII=");
+	background-repeat: no-repeat;padding-left: 30px;background-size: contain;height: 20px;
+}
+
+.ico-centos {
+	background-image: url("data:image/png;base64,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");
+	background-repeat: no-repeat;padding-left: 30px;background-size: contain;height: 20px;
+}
+
+.ico-ubuntu {
+	background-image: url("data:image/png;base64,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");
+	background-repeat: no-repeat;padding-left: 30px;background-size: contain;height: 20px;
+}
+
+.ico-debian {
+	background-image: url("data:image/png;base64,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");
+	background-repeat: no-repeat;padding-left: 30px;background-size: contain;height: 20px;
+}
+
+.ico-fedora {
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAARtJREFUOE+Fks1thDAQhWfkK5dNCbslZEtYSsgeuHtcQlpIB4gRcgHJmVMoIbTAjWu4cMR2NAgiLzLJSEiWzTdvfh5CFEVRnLIseweAZwA4rU8jAHTDMNybppHzErgdtNY3RPyME0XnBfDe53Vdd7/gETTPc26tbeVHIpKkN6XUpSzLflEkorBX8t5f5U4pVYUQpOztG5n5CbXWb4j4ugeZGY0xXyEE6fchnHP3o8clKxF9R0OK4RYTZY6I2FdVdV0Vzwl43IPMzGZfGhFVMop4yklF2Rsz538o9ilQEv/X40cSRMROekytSbJO03SJQXGHDGZ0zpkQwlkpJfZ7iHmejbWWY7CVvlZDvADAIbRYbrdkUd3MvSklTf4DoYOi1ZiPQGwAAAAASUVORK5CYII=");
+	background-repeat: no-repeat;padding-left: 30px;background-size: contain;height: 20px;
+}
+
+.lytask-drawer{
+	.el-drawer__body {
+		overflow: auto;
+		padding: 0;
+	}
+	.el-container{
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+	.el-drawer__header{
+		flex-direction:row-reverse;
+	}
+	.el-tabs__header{
+		margin: 0;
+	}
+}
+
+.ryhelp-tips{
+	font-size: 12px;
+	word-break: break-all;
+	display: inline-block;
+	width: 100%;
+	color:rgb(161, 158, 158)
+}
+
+.lybbnMessageBoxClass .el-message-box__status{
+	font-size: 30px !important;
+}
+.lybbnMessageBoxClass .el-message-box__title {
+	font-size: 20px !important;
+	font-weight: bold;
+}
+.lyicon-loading{
+	animation: rotating 2s linear infinite;
+}
+
+.ly-is-full{
+	/* 降级 fixed 模拟全屏的覆盖布局（原生全屏时浏览器自动全屏，此类仅叠加背景视觉） */
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: var(--ly-bg-page, #EEF2FB);
+	background-image: var(--ly-page-gradient, none);
+}
+/* fixed 模拟全屏的层级兜底：容器在 .lybbn-panel-main(z-index:1) 内，再大的 z-index 也会被
+   header(z-index:5) 压住；全屏态临时把 panel-main 提到 header 之上 */
+.lybbn-panel-main:has(.ly-is-full) {z-index: 3000;}
+
+.tableSelect{
+	margin-bottom: 10px;
+	flex-shrink: 0; /* 防止搜索区域被压缩 */
+	.el-form{
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+	}
+	.el-form-item{
+		margin: 5px !important;
+	}
+	.el-card__body{
+		padding: 10px;
+	}
+}
+
+.table-operate-btn {
+    display: inline-block;
+    cursor: pointer;
+    margin-right: 8px;
+    white-space: nowrap;
+    font-size: 14px;
+    padding: 4px 6px;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+	color: var(--el-color-primary);
+    
+    &:last-child {
+        margin-right: 0;
+    }
+    
+    &:hover {
+        background-color: rgba(64, 158, 255, 0.08);
+    }
+    
+    &.edit {
+        color: var(--el-color-primary);
+        
+        &:hover {
+            color: var(--el-color-primary-light-1);
+        }
+    }
+    
+    &.detail {
+        color: var(--el-text-color-regular);
+        
+        &:hover {
+            color: var(--el-text-color-primary);
+        }
+    }
+    
+    &.delete {
+        color: var(--el-color-danger);
+        
+        &:hover {
+            
+        }
+    }
+
+	&.warning {
+        color: var(--el-color-warning);
+        
+        &:hover {
+            
+        }
+    }
+    
+    &.color99 {
+        color: #999999;
+        cursor: default;
+        
+        &:hover {
+            background-color: transparent;
+        }
+    }
+}
+
+.lycontainer{
+	/* 横向节奏对齐 v4（.content 18/20px），顶部保留与标签栏的呼吸间距 */
+	padding:14px 20px 20px 18px;
+	display: flex;
+    flex-direction: column;
+	height: 100%;
+    width: 100%;
+}
+.lytable{
+	flex: 1;
+    display: flex;
+    flex-direction: column;
+	min-height: 0;
+    overflow: hidden;
+}
+.lytopaction{
+	display: flex;
+	padding: 0 !important;
+	height: 50px;
+	border-bottom: unset !important;
+	flex-shrink: 0; /* 禁止收缩 */
+	.left-panel {display: flex;align-items: center;}
+	.right-panel {display: flex;align-items: center;}
+}
+.lytable .el-table__body-wrapper {
+    background: unset !important;
+}
+.lytable .el-card__body{
+	padding: 10px;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+	overflow: hidden;
+}
+.lyflexcenter{
+	display: flex;
+	align-items: center;
+}
+.lydrawer{
+	.el-drawer__header{
+		margin-bottom:5px !important;
+		padding: 15px;
+		border-bottom: 1px solid var(--el-border-color-light);
+	}
+	.el-drawer__footer{
+		background: var(--el-bg-color);
+		border-top: 1px solid var(--el-border-color-light);
+		padding: 13px 15px !important;
+	}
+}
+
+.lybody-padding-0{
+	padding:0 !important;
+}
+.lybody-padding-10{
+	padding:10px !important;
+}
+.lybody-padding-20{
+	padding:20px !important;
+}
+
+.w-e-full-screen-container{
+	z-index: 4000 !important;
+}
+
+/* wangEditor 富文本：玻璃主题适配（走官方 CSS 变量，工具栏/编辑区/弹窗全 token 化） */
+.editor-wrapper {
+	--w-e-toolbar-bg-color: transparent;
+	--w-e-toolbar-color: var(--ly-text-2);
+	--w-e-toolbar-active-color: var(--el-color-primary);
+	--w-e-toolbar-active-bg-color: rgba(58, 123, 255, 0.10);
+	--w-e-toolbar-disabled-color: var(--ly-text-4, #bcbccc);
+	--w-e-textarea-bg-color: transparent;
+	--w-e-textarea-color: var(--ly-text-1);
+	--w-e-textarea-border-color: var(--ly-input-border);
+	--w-e-textarea-slight-border-color: var(--ly-line-soft);
+	--w-e-textarea-slight-color: var(--ly-line-soft);
+	--w-e-textarea-selected-border-color: rgba(58, 123, 255, 0.45);
+	--w-e-textarea-handler-bg-color: var(--el-color-primary);
+	--w-e-modal-bg-color: var(--ly-glass-bg-strong);
+	--w-e-toolbar-border-color: var(--ly-line-soft);
+	background: var(--ly-input-bg, rgba(255, 255, 255, 0.45));
+}
+html.dark .editor-wrapper {
+	--w-e-toolbar-active-bg-color: rgba(58, 123, 255, 0.22);
+	--w-e-textarea-selected-border-color: rgba(58, 123, 255, 0.60);
+	background: rgba(255, 255, 255, 0.06);
+}
+/* 工具栏按钮 hover：淡蓝底主色字（对齐 v4 菜单 hover 语言） */
+.w-e-toolbar .w-e-menu-tooltip-v5:hover {background: rgba(58, 123, 255, 0.10);}
+/* 按钮 hover 提示（tooltip）：wangEditor 原生把提示文字色绑在 --w-e-toolbar-bg-color 上，
+   我们玻璃化时把它置为 transparent 导致提示文字隐形（只剩蓝色提示块），强制白字 */
+.w-e-menu-tooltip-v5:before {color: #fff !important;}
+.w-e-menu-tooltip-v5:before {background-color: var(--el-color-primary) !important;border-radius: 7px;padding: 6px 10px;}
+/* 工具栏下拉面板（字体/字号选择列表、drop-panel）：密集文字小面板，必须不透明底，
+   否则正文从面板后透出导致选项看不清（用户实测反馈）。用 EP 不透明 overlay 底自动适配明暗 */
+.w-e-select-list,
+.w-e-drop-panel {
+	background: var(--el-bg-color-overlay) !important;
+	border: 1px solid var(--ly-line-soft) !important;
+	border-radius: 12px !important;
+	box-shadow: 0 12px 36px rgba(27, 35, 64, 0.18) !important;
+	overflow: hidden;
+}
+.w-e-select-list ul {padding: 4px;}
+.w-e-select-list ul li {border-radius: 7px;margin: 1px 0;padding-left: 21px;transition: background-color .15s ease,color .15s ease;}
+.w-e-select-list ul li:hover {background: rgba(58, 123, 255, 0.08);color: var(--el-color-primary);}
+.w-e-select-list ul li.selected {color: var(--el-color-primary);font-weight: 600;}
+/* 编辑器内弹窗（插入链接/图片地址）：玻璃卡片 + token 表单控件 */
+.w-e-modal {
+	background: var(--ly-glass-bg-strong) !important;
+	backdrop-filter: var(--ly-glass-blur);
+	border: 1px solid var(--ly-glass-border);
+	border-radius: 12px;
+	box-shadow: 0 16px 48px rgba(27, 35, 64, 0.20), var(--ly-glass-highlight);
+}
+.w-e-modal input, .w-e-modal select, .w-e-modal textarea {
+	background: var(--ly-input-bg, rgba(255, 255, 255, 0.45));
+	border-color: var(--ly-input-border);
+	color: var(--ly-text-1);
+	border-radius: 8px;
+}
+html.dark .w-e-toolbar svg, html.dark .w-e-textarea svg {fill: var(--ly-text-2);}

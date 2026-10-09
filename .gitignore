@@ -1,0 +1,34 @@
+# Python
+backend/venv/
+backend/.venv/
+**/__pycache__/
+**/*.py[cod]
+**/.pytest_cache/
+**/.mypy_cache/
+
+# 环境与密钥（.env.docker 模板除外）
+backend/.env
+backend/.env.dev
+backend/.env.prod
+.env
+.env.*
+!.env.docker
+
+# 本地数据库与运行时产物
+backend/db.sqlite3
+backend/logs/
+backend/media/**
+!backend/media/.gitkeep
+backend/frontend/lyadmin/
+
+# 前端
+frontend/node_modules/
+frontend/dist/
+frontend/.cache/
+
+# IDE / 系统
+.idea/
+.vscode/
+.trae/
+Thumbs.db
+.DS_Store
