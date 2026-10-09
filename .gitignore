@@ -29,6 +29,5 @@ frontend/.cache/
 # IDE / 系统
 .idea/
 .vscode/
-.trae/
 Thumbs.db
 .DS_Store

@@ -10,22 +10,6 @@ dvlyadmin-fastapi：FastAPI + SQLAlchemy 2.0 后端（`backend/`），Vue3 + Ele
 │   └── AGENTS.md              # 建表保护（db_init 唯一入口）+ FK 字段映射 + 底层框架保护
 ├── documents/                 # 设计文档（fastapi 独立化方案等）
 └── skills/                    # 技能库，每个子目录一个 SKILL.md
-    ├── dvlyadmin-json-response/        # 响应类用法（FastAPI 版同样适用：utils/jsonResponse 同名类）
-    ├── dvlyadmin-initialize-data/      # 初始化数据（对应 commands/init + mysystem/initialize.py）
-    ├── dvlyadmin-pagination-habits/
-    ├── dvlyadmin-lydialog-habits/
-    ├── dvlyadmin-element-plus-icons-habits/
-    ├── dvlyadmin-svgicon-habits/
-    ├── add-devtool/
-    ├── case-illustration/
-    ├── frontend-design/
-    ├── ui-ux-pro-max/
-    ├── ui-styling/
-    ├── design-system/
-    ├── design/
-    ├── brand/
-    ├── banner-design/
-    └── slides/
 ```
 
 ## 必守规则
