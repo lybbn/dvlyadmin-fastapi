@@ -8,6 +8,18 @@
 
 **dvlyadmin-fastapi** 保持 dvlyadmin-mini 的页面极致效果与小而精架构：前端采用 **Vite + Vue 3 + Element Plus**（支持适配手机端），后端采用 **FastAPI + SQLAlchemy 2.0（同步）+ PyMySQL**，接口与 dvlyadmin-mini Django 版完全对齐。
 
+## 📦 同系列项目
+
+lyadmin 系列提供了多语言/多框架的快速开发框架基座，前端均采用统一的 **Vite + Vue 3 + Element Plus** 设计风格，可按技术栈自由选择：
+
+| 项目 | 技术栈 | 地址 |
+| --- | --- | --- |
+| **dvlyadmin-fastapi**（本项目） | Python + FastAPI | [https://gitee.com/lybbn/dvlyadmin-fastapi](https://gitee.com/lybbn/dvlyadmin-fastapi) |
+| **dvlyadmin-mini** | Python + Django | [https://gitee.com/lybbn/dvlyadmin-mini](https://gitee.com/lybbn/dvlyadmin-mini) |
+| **golyadmin** | Go (Golang) | [https://gitee.com/lybbn/golyadmin](https://gitee.com/lybbn/golyadmin) |
+
+分别用于 **Django**、**FastAPI** 和 **Go 语言** 的快速开发框架基座，开箱即用，助力不同技术栈的团队快速搭建后台管理系统。
+
 ## 💡 与 Django 版（dvlyadmin-mini）的关系
 
 | 维度 | dvlyadmin-mini（Django） | dvlyadmin-fastapi（本项目） |
@@ -19,6 +31,25 @@
 | 建表方式 | `manage.py migrate` | `manage.py db_init`（checkfirst 幂等） |
 | 端口 | 8000 | 8000（**两端不可同时运行**） |
 | 前端 | 同一份 Vue3 前端 | 同一份 Vue3 前端（零改动） |
+
+
+## 🛠️ 生态工具
+
+### RuYi Panel — 服务器面板，快速部署发布项目
+
+**RuYi Panel** 是一款用于**服务器面板快速部署发布项目**的运维管理面板，让项目部署像搭积木一样简单：官网地址：[https://ruyi.lybbn.cn](https://ruyi.lybbn.cn)
+
+- 🖥️ 可视化服务器管理：站点、进程、环境一键配置
+- 🚀 快速部署发布：无需手动敲命令，快速将项目发布上线
+- 🔧 运维省心：日志查看、状态监控、常见运维操作面板化
+
+### RuYi Workstation — 集中管理 RuYi Panel 的工作台（桌面版）
+
+**RuYi Workstation** 用于**集中管理多台 RuYi Panel**，实现本地项目的快速一键发布和更新：
+
+- 🗂️ 集中管理：在本地工作台中统一管理多台安装了 RuYi Panel 的服务器
+- ⚡ 一键发布/更新：本地项目快速一键发布和更新到 RuYi Panel，告别繁琐的手工上传与重启
+- 🔁 高效迭代：开发 → 发布 → 更新 流程一体化，大幅提升交付效率
 
 ## 🚀 快速开始（本地开发）
 
@@ -118,8 +149,18 @@ frontend/               # 前端代码目录（Vue3）
 
 ## ✅ 演示图
 
-![登录](https://foruda.gitee.com/images/1752461064099761356/404e5c89_4823422.png "wechat_2025-07-14_104123_881.png")
-![首页](https://foruda.gitee.com/images/1752461080317609620/bbc20f96_4823422.png "wechat_2025-07-14_104159_622.png")
-![用户管理](https://foruda.gitee.com/images/1752461107939022968/53d97e3d_4823422.png "wechat_2025-07-14_104237_798.png")
-![菜单管理](https://foruda.gitee.com/images/1752461123060391528/e0e5573d_4823422.png "wechat_2025-07-14_104252_982.png")
-![字典管理](https://foruda.gitee.com/images/1752461182186356276/8ff97750_4823422.png "wechat_2025-07-14_104336_924.png")
+![登录](https://foruda.gitee.com/images/1791506066046958975/0afded43_4823422.png "登录")
+
+![首页](https://foruda.gitee.com/images/1791506090585942679/c911f3c0_4823422.png "首页")
+
+![个人中心](https://foruda.gitee.com/images/1791506113770100872/d018f51c_4823422.png "个人中心")
+
+![用户管理](https://foruda.gitee.com/images/1791506152816908706/10da2d6c_4823422.png "用户管理")
+
+![菜单管理](https://foruda.gitee.com/images/1791506182507712082/1c7200ca_4823422.png "菜单管理")
+
+![权限管理](https://foruda.gitee.com/images/1791506207427706092/d1379195_4823422.png "权限管理")
+
+![系统配置](https://foruda.gitee.com/images/1791506241678582214/697cd48c_4823422.png "系统配置")
+
+![字典管理](https://foruda.gitee.com/images/1791506271356529319/5f28d5e4_4823422.png "字典管理")
